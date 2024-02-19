@@ -51,6 +51,17 @@ public class StudentController {
 		return ret;
 	}
 	
+	@GetMapping("/all")
+	public ResponseObject getAllStudents() {
+		ResponseObject ret;
+		try {
+			ret = ResponseObject.builder().status(ResponseStatus.SUCCESS).message("All students fetched successfully!").body(studentService.getAll()).build();
+		} catch(Exception e) {
+			ret = ResponseObject.builder().status(ResponseStatus.FAILED).message(e.getMessage()).build();
+		}
+		return ret;
+	}
+	
 	@DeleteMapping("/{studentId}")
 	public ResponseObject delete(@PathVariable("studentId") int id) {
 		ResponseObject ret;

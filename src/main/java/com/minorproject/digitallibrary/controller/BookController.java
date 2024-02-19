@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.minorproject.digitallibrary.dto.BookRequest;
+import com.minorproject.digitallibrary.dto.BookResponse;
 import com.minorproject.digitallibrary.dto.ResponseObject;
 import com.minorproject.digitallibrary.dto.ResponseStatus;
 import com.minorproject.digitallibrary.service.BookService;
@@ -50,7 +51,23 @@ public class BookController {
 	public ResponseObject getAllBooks() {
 		ResponseObject ret;
 		try {
-			ret = ResponseObject.builder().status(ResponseStatus.SUCCESS).message("All books fetched successfully!").body(bookService.get()).build();
+			ret = ResponseObject.builder().status(ResponseStatus.SUCCESS).message("All books fetched successfully!").body(bookService.getAll()).build();
+		} catch(Exception e) {
+			ret = ResponseObject.builder().status(ResponseStatus.FAILED).message(e.getMessage()).build();
+		}
+		return ret;
+	}
+	
+	@GetMapping("/{bookId}")
+	public ResponseObject getBookById(@PathVariable("bookId") int id) {
+		ResponseObject ret;
+		try {
+			BookResponse book = bookService.getBookById(id);
+			if(null == book) {
+				throw new Exception("Book details not found!");
+			}
+			ret = ResponseObject.builder().status(ResponseStatus.SUCCESS).message("Book details fetched successfully!").body(book).build();
+			
 		} catch(Exception e) {
 			ret = ResponseObject.builder().status(ResponseStatus.FAILED).message(e.getMessage()).build();
 		}

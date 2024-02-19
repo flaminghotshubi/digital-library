@@ -32,11 +32,16 @@ public class BookService {
 		bookRepo.deleteById(id);
 	}
 	
-	public List<BookResponse> get() {
+	public List<BookResponse> getAll() {
 		List<Book> bookList = bookRepo.findAll();
 		List<BookResponse> ret = new ArrayList<>(bookList.size());
 		bookList.forEach(book -> ret.add(BookResponse.from(book)));
 		return ret;
+	}
+	
+	public BookResponse getBookById(int id) {
+		Book b = bookRepo.findById(id).orElse(null);
+		return BookResponse.from(b);
 	}
 	
 //	public List<Book> search(String searchKey, String searchValue, String operator) {
