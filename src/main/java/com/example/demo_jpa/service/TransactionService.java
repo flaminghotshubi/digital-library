@@ -50,7 +50,8 @@ public class TransactionService {
 
         // Validations
         Student student = studentService.get(sid);
-        if (student.getTransactionList().size() == bookLimit)
+        List<Book> issuedBooks = student.getBookList();
+        if (null != issuedBooks && student.getBookList().size() == bookLimit)
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Max book limit reached");
         if (new Date().after(student.getValidity()))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Student access expired");
