@@ -34,6 +34,11 @@ public class Student {
     @JsonIgnoreProperties({"student"})
     private List<Transaction> transactionList;
 
+    @OneToOne
+    @JoinColumn(referencedColumnName = "username")
+    @JsonIgnoreProperties({"student"})
+    private User user;
+
     private Date validity;
 
     @CreationTimestamp
